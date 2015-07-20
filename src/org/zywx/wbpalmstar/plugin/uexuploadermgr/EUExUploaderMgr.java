@@ -1,5 +1,24 @@
 package org.zywx.wbpalmstar.plugin.uexuploadermgr;
 
+import android.content.Context;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.os.Bundle;
+import android.os.Message;
+import android.text.TextUtils;
+
+import org.json.JSONObject;
+import org.zywx.wbpalmstar.base.BUtility;
+import org.zywx.wbpalmstar.engine.EBrowserView;
+import org.zywx.wbpalmstar.engine.universalex.EUExBase;
+import org.zywx.wbpalmstar.engine.universalex.EUExCallback;
+import org.zywx.wbpalmstar.platform.certificates.HNetSSLSocketFactory;
+import org.zywx.wbpalmstar.platform.certificates.HX509HostnameVerifier;
+import org.zywx.wbpalmstar.platform.certificates.Http;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -20,25 +39,6 @@ import java.util.Set;
 import java.util.UUID;
 
 import javax.net.ssl.HttpsURLConnection;
-
-import org.json.JSONObject;
-import org.zywx.wbpalmstar.base.BUtility;
-import org.zywx.wbpalmstar.engine.EBrowserView;
-import org.zywx.wbpalmstar.engine.universalex.EUExBase;
-import org.zywx.wbpalmstar.engine.universalex.EUExCallback;
-import org.zywx.wbpalmstar.platform.certificates.HNetSSLSocketFactory;
-import org.zywx.wbpalmstar.platform.certificates.HX509HostnameVerifier;
-import org.zywx.wbpalmstar.platform.certificates.Http;
-
-import android.content.Context;
-import android.content.res.AssetFileDescriptor;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.CompressFormat;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.os.Bundle;
-import android.os.Message;
-import android.text.TextUtils;
 
 public class EUExUploaderMgr extends EUExBase {
 
@@ -621,7 +621,7 @@ public class EUExUploaderMgr extends EUExBase {
                 } else {
                 	dstbmp = source;
                 }
-                if (dstbmp.compress(CompressFormat.JPEG, quality, baos)) {
+                if (!dstbmp.isRecycled() && dstbmp.compress(CompressFormat.JPEG, quality, baos)) {
                     if (dstbmp != null && !dstbmp.isRecycled()) {
                         dstbmp.recycle();
                     }
